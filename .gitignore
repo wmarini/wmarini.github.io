@@ -1,0 +1,6 @@
+gnore dot files/directoories
+.*
+!.gitignore
+*.swp
+*.tmp
+hotcommands.*
