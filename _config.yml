@@ -1,0 +1,30 @@
+# Site settings
+title: wmarini.github.io
+description: >-
+  Notes on GDB, binutils, C++, and systems programming.
+  Currently porting GNU binutils-gdb to the HPE NonStop Server.
+url: "https://wmarini.github.io"
+baseurl: ""
+author: wmarini
+
+# Post URLs match journal.stuffwithstuff.com style: /2026/07/04/my-post/
+permalink: /:year/:month/:day/:title/
+
+# Markdown / highlighting
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# GitHub Pages whitelisted plugins
+plugins:
+  - jekyll-feed        # generates /feed.xml
+  - jekyll-sitemap     # generates /sitemap.xml
+
+# Don't publish these
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor

@@ -1,1 +1,91 @@
-wmarini github.io
+---
+layout: default
+---
+<p class="site-intro">
+  Notes on GDB, binutils, C++, and systems programming &mdash; from the
+  trenches of porting <strong>GNU binutils-gdb</strong> to the
+  <strong>HPE NonStop Server</strong>.
+</p>
+
+<div class="tabs" role="tablist" aria-label="Sort posts">
+  <button class="tab" id="tab-by-date" role="tab" aria-selected="true" aria-controls="by-date">by date</button>
+  <button class="tab" id="tab-by-category" role="tab" aria-selected="false" aria-controls="by-category">by category</button>
+</div>
+
+<section id="by-date" class="tab-panel" role="tabpanel" aria-labelledby="tab-by-date">
+  {% assign prev_year = "" %}
+  {% for post in site.posts %}
+    {% assign year = post.date | date: "%Y" %}
+    {% if year != prev_year %}
+      {% unless forloop.first %}</ul>{% endunless %}
+      <h2 class="group-heading">{{ year }}</h2>
+      <ul class="post-list">
+      {% assign prev_year = year %}
+    {% endif %}
+    {% include post_row.html post=post show_cats=true %}
+    {% if forloop.last %}</ul>{% endif %}
+  {% endfor %}
+</section>
+
+<section id="by-category" class="tab-panel" role="tabpanel" aria-labelledby="tab-by-category" hidden>
+  {% assign cats = site.categories | sort %}
+  {% for cat in cats %}
+  <h2 class="group-heading" id="cat-{{ cat[0] }}">{{ cat[0] }}<span class="count">{{ cat[1] | size }}</span></h2>
+  <ul class="post-list">
+    {% for post in cat[1] %}
+      {% include post_row.html post=post show_cats=false %}
+    {% endfor %}
+  </ul>
+  {% endfor %}
+</section>
+
+<script>
+(function () {
+  "use strict";
+  var tabs = {
+    "by-date": document.getElementById("tab-by-date"),
+    "by-category": document.getElementById("tab-by-category")
+  };
+  var panels = {
+    "by-date": document.getElementById("by-date"),
+    "by-category": document.getElementById("by-category")
+  };
+
+  function select(name) {
+    Object.keys(panels).forEach(function (key) {
+      var active = key === name;
+      panels[key].hidden = !active;
+      tabs[key].setAttribute("aria-selected", active ? "true" : "false");
+    });
+  }
+
+  // Resolve a hash to the tab that should show it. Category anchors
+  // (#cat-gdb) live inside the category panel.
+  function tabForHash(hash) {
+    if (hash === "#by-category" || hash.indexOf("#cat-") === 0) return "by-category";
+    return "by-date";
+  }
+
+  function applyHash() {
+    var hash = window.location.hash;
+    select(tabForHash(hash));
+    if (hash.indexOf("#cat-") === 0) {
+      var target = document.getElementById(hash.slice(1));
+      if (target) target.scrollIntoView();
+    }
+  }
+
+  tabs["by-date"].addEventListener("click", function () {
+    history.replaceState(null, "", "#by-date");
+    select("by-date");
+  });
+  tabs["by-category"].addEventListener("click", function () {
+    history.replaceState(null, "", "#by-category");
+    select("by-category");
+  });
+
+  // Category chips on rows deep-link into the category panel.
+  window.addEventListener("hashchange", applyHash);
+  applyHash();
+})();
+</script>

@@ -1,0 +1,9 @@
+<li class="post-row">
+  <span class="row-date">{{ include.post.date | date: "%b %d" | downcase }}</span>
+  <a class="row-title" href="{{ include.post.url | relative_url }}">{{ include.post.title | escape }}</a>
+  {% if include.show_cats and include.post.categories.size > 0 %}
+  <span class="row-cats">
+    {% for cat in include.post.categories %}<a class="tag" href="#cat-{{ cat }}">{{ cat }}</a>{% endfor %}
+  </span>
+  {% endif %}
+</li>

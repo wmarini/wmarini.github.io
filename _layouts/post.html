@@ -1,0 +1,34 @@
+---
+layout: default
+---
+<article class="post">
+  <header class="post-header">
+    <h1 class="post-title">{{ page.title | escape }}</h1>
+    <div class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" | downcase }}</time>
+      {% if page.categories.size > 0 %}
+      <span class="post-cats">
+        {% for cat in page.categories %}<a class="tag" href="{{ '/#cat-' | append: cat | relative_url }}">{{ cat }}</a>{% endfor %}
+      </span>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+</article>
+
+<nav class="post-thread" aria-label="Adjacent posts">
+  <div class="thread-prev">
+    {% if page.previous %}
+    <a href="{{ page.previous.url | relative_url }}" rel="prev" title="{{ page.previous.title | escape }}">&larr; {{ page.previous.title | escape | truncate: 40 }}</a>
+    {% endif %}
+  </div>
+  <div class="thread-home"><a href="{{ '/' | relative_url }}">all posts</a></div>
+  <div class="thread-next">
+    {% if page.next %}
+    <a href="{{ page.next.url | relative_url }}" rel="next" title="{{ page.next.title | escape }}">{{ page.next.title | escape | truncate: 40 }} &rarr;</a>
+    {% endif %}
+  </div>
+</nav>
